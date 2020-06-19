@@ -1,0 +1,174 @@
+﻿@model JewelryShop.ViewModels.ShoppingCartViewModel
+@using Microsoft.Extensions.Options
+@inject IOptions<JewelryShop.Stripe> Stripe
+<!-- Start Slider Area -->
+<div class="slider__container slider--one">
+    <div class="slider__activation__wrap owl-carousel owl-theme">
+        <!-- Start Single Slide -->
+        <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                        <div class="slider__inner">
+                            <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                            <div class="slider__btn">
+                                <a class="htc__btn" asp-controller="Home" asp-action="Index">Mua hàng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Slide -->
+        <!-- Start Single Slide -->
+        <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                        <div class="slider__inner">
+                            <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                            <div class="slider__btn">
+                                <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Slide -->
+    </div>
+</div>
+<!-- End Slider Area -->
+<!-- Start Checkout Area -->
+<form method="post" onsubmit="kiemtra()">
+    <section class="our-checkout-area ptb--120 bg__white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <div class="ckeckout-left-sidebar">
+                        <!-- Start Checkbox Area -->
+                        <div class="checkout-form">
+                            <h2 class="section-title-3">Thông tin khách hàng</h2>
+                            <div class="checkout-form-inner">
+                                <div class="single-checkout-box">
+                                    <input type="text" asp-for="Order.ApplicationUserId" hidden>
+                                </div>
+                                <div class="single-checkout-box">
+                                    <input type="text" placeholder="Họ và tên" asp-for="Order.Name" id="fullname" style="width: 240px" readonly>
+                                    <input type="text" placeholder="Số điện thoại" asp-for="Order.PhoneNumber" id="phone" style="width: 200px" readonly>
+                                </div>
+                                <div class="single-checkout-box">
+                                    <input type="text" placeholder="Địa chỉ" asp-for="Order.Address" id="addr" style="width: 470px" readonly>
+
+                                </div>
+                                
+                                <br>
+                                <h5 class="section-title-3">Hình thức thanh toán</h5>
+                                <br>
+
+                                <div class="single-checkout-box checkbox">
+                                    <input type="text" placeholder="Hình thức thanh toán" style="width: 240px" value="Thanh toán online" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Checkbox Area -->
+                        <!-- Start Payment Way -->
+                        <br>
+
+                        <div class="our-payment-sestem" id="two">
+                            <div class="wc-proceed-to-checkout">
+                                <button type="submit" class="btn btn-outline-dark">CHUYỂN KHOẢN</button>
+
+                                @{
+                                    //var OrderTotalForStripe = Model.Order.OrderTotal * 100;
+                                    //var OrderTotalForStripe = "Thanh toán";
+                                }
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="@Stripe.Value.PublishableKey"
+                                        data-amount=""
+                                        data-name="JewelryShop"
+                                        data-label="THANH TOÁN"
+                                        data-panel-label="Thanh toán"
+                                        data-description=""
+                                        data-locale="auto"
+                                        data-allow-remember-me="false"
+                                        data-image="">
+
+                                </script>
+                                <script>
+                                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                </script>
+                            </div>
+                        </div>
+                        <!-- End Payment Way -->
+                        <!-- Start Payment Way -->
+                        <!-- End Payment Way -->
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="checkout-right-sidebar">
+                        <h2 class="section-title-3">Chi tiết sản phẩm</h2>
+                        <div class="checkout-form-inner">
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="product-name">Sản phẩm</th>
+                                            <th class="product-price">Giá</th>
+                                            <th class="product-quantity">Số lượng</th>
+                                            <th class="product-subtotal">Thành tiền</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var details in Model.ListCart)
+                                        {
+                                            <tr>
+                                                <td class="product-quantity"><span class="amount">@details.Jewelry.Name</span></td>
+                                                <td class="product-quantity"><span class="amount">@details.Jewelry.Price VND</span></td>
+                                                <td class="product-price"><span class="amount">@details.Amount</span></td>
+                                                <td class="product-quantity"><span class="amount">@(details.Amount * details.Jewelry.Price) VND</span></td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td class="product-quantity" colspan="3"><span class="amount">TỔNG TIỀN</span></td>
+                                            <td class="product-quantity"><span class="amount">@Model.Order.OrderTotal VND</span></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Checkout Area -->
+</form>
+@section Scripts{
+    <script>
+        function thanhtoan() {
+            var r1 = document.getElementById('r1');
+            var r2 = document.getElementById('r2');
+            if (r1.checked == true) {
+                document.getElementById('one').disabled = false;
+                document.getElementById('two').disabled = true;
+                document.getElementById('one').hidden = false;
+                document.getElementById('two').hidden = true;
+            }
+            if (r2.checked == true) {
+                document.getElementById('one').disabled = true;
+                document.getElementById('two').disabled = false;
+                document.getElementById('one').hidden = true;
+                document.getElementById('two').hidden = false;
+            }
+        }
+
+    </script>
+
+
+
+}

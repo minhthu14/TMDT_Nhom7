@@ -1,0 +1,149 @@
+﻿@model ShoppingCartViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@if (User.IsInRole(JewelryShop.RL.Customer) || !SignInManager.IsSignedIn(User))
+{
+    <!-- Start Slider Area -->
+    <div class="slider__container slider--one">
+        <div class="slider__activation__wrap owl-carousel owl-theme">
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                                <div class="slider__btn">
+                                    <a class="htc__btn" asp-controller="Home" asp-action="Index">Mua hàng ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                                <div class="slider__btn">
+                                    <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+        </div>
+    </div>
+    <!-- End Slider Area -->
+    <!-- cart-main-area start -->
+    <div class="cart-main-area ptb--120 bg__white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-12">
+                    <form method="post">
+                        <div class="table-content table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">Hình ảnh</th>
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-price">Đơn giá</th>
+
+                                        <th class="product-quantity">Số lượng</th>
+
+                                        <th class="product-subtotal">Thành tiền</th>
+                                        <th class="product-remove">Gỡ bỏ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+                                    {
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="@item.Jewelry.ImageUrl" alt="product img" /></a></td>
+                                            <td class="product-subtotal">@item.Jewelry.Name</td>
+                                            <td class="product-subtotal">@item.Jewelry.Price VND</td>
+
+                                            <td class="product-quantity">
+                                                <a asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-jewelryId="@item.Jewelry.JewelryId">-</a>
+                                                <input type="text" value="@item.Amount" readonly>
+                                                <a asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-jewelryId="@item.Jewelry.JewelryId">+</a>
+                                            </td>
+
+                                            <td class="product-subtotal">@(item.Amount * item.Jewelry.Price) VND</td>
+                                            <td class="product-remove"><a asp-controller="ShoppingCart" asp-action="RemoveProduct" asp-route-jewelryId="@item.Jewelry.JewelryId">X</a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-sm-12">
+                                <div class="buttons-cart">
+                                    <a asp-controller="ShoppingCart" asp-action="ClearCart">Xóa giỏ hàng</a>
+                                    <a asp-controller="Home" asp-action="Index">Tiếp tục mua hàng</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 ">
+                                <div class="cart_totals">
+                                    <h2>Giỏ Hàng</h2>
+                                    <table>
+                                        <tbody>
+                                            <tr class="cart-subtotal">
+                                                <th>Thành Tiền</th>
+                                                <td><span class="amount">@Model.ShoppingCartTotal VND</span></td>
+                                            </tr>
+                                            <tr class="shipping">
+                                                <th>Shipping</th>
+                                                <td>
+                                                    <ul id="shipping_method">
+                                                        <li>
+                                                            <input type="radio" checked />
+                                                            <label>
+                                                                Free Shipping
+                                                            </label>
+                                                        </li>
+                                                        <li></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Tổng Cộng</th>
+                                                <td>
+                                                    <strong><span class="amount">@Model.ShoppingCartTotal VND</span></strong>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="wc-proceed-to-checkout">
+                                        <a asp-controller="Order" asp-action="Checkout">Tiến Hành Thanh Toán</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cart-main-area end -->
+}
+@if (User.IsInRole(JewelryShop.RL.Admin))
+{
+    <section class="htc__product__area ptb--130 bg__white">
+        <header>
+            <section class="htc__product__area ptb--130 bg__white">
+                <div class="container text-center">
+                    <h1 class="text-danger">Giao diện Admin</h1>
+                </div>
+            </section>
+        </header>
+    </section>
+}

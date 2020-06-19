@@ -1,0 +1,210 @@
+﻿@model Jewelry
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@if (User.IsInRole(JewelryShop.RL.Customer) || !SignInManager.IsSignedIn(User))
+{
+    <!-- Start Slider Area -->
+    <div class="slider__container slider--one">
+        <div class="slider__activation__wrap owl-carousel owl-theme">
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                                <div class="slider__btn">
+                                    <a class="htc__btn" asp-controller="Home" asp-action="Index">Mua hàng ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                                <div class="slider__btn">
+                                    <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+        </div>
+    </div>
+    <!-- End Slider Area -->
+    <form asp-controller="ShoppingCart" asp-action="AddToShoppingCartAmount" asp-route-jewelryId="@Model.JewelryId">
+        <!-- Start Product Details -->
+        <section class="htc__product__details pt--120 pb--100 bg__white">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-12 col-lg-6 col-sm-12">
+                        <div class="product__details__container">
+                            <ul class="nav product__small__images" role="tablist">
+                                <li role="presentation" class="pot-small-img active">
+
+                                </li>
+                            </ul>
+                            <div class="product__big__images">
+                                <div class="portfolio-full-image tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="img-tab-1">
+                                        <img src="@Model.ImageUrl" alt="full-image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-sm-12 smt-30 xmt-30">
+                        <div class="htc__product__details__inner">
+                            <div class="pro__detl__title">
+                                <h2>@Model.Name</h2>
+                            </div>
+
+                            <div class="pro__details">
+                                <p>@Model.Description</p>
+                            </div>
+                            <ul class="pro__dtl__prize">
+                                <li>Giá: @Model.Price VND</li>
+                            </ul>
+                            <div class="pro__dtl__size">
+                                <h2 class="title__5">Size</h2>
+                                <ul class="pro__choose__size">
+                                    <li><a>free size</a></li>
+                                </ul>
+                            </div>
+                            <div class="pro__dtl__size">
+                                <h2 class="title__5">SỐ LƯỢNG</h2>
+                                <input type="number" required min="1" max="15" value="1" id="Amount" name="Amount" onchange="on_AmountChanged(this);" style="width:50px;" />
+                                <input type="hidden" name="jewelryId" value="@Model.JewelryId" />
+                                @*<script type="text/javascript">
+                                        function on_AmountChanged(self) {
+                                            var url = $('#buton_themvaogiohang').attr('href');
+                                            var amount = $(self).val();
+
+                                            var result = url + amount;
+                                            alert(url + amount);
+
+                                            $('#buton_themvaogiohang').attr('href', result);
+                                        }
+                                    </script>*@
+                            </div>
+                            <ul class="pro__dtl__btn">
+                                <li class="buy__now__btn"><input type="submit" value="Thêm vào giỏ" class="btn btn-outline-dark"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- End Product Details -->
+    </form>
+    <!-- Start Product tab -->
+    <section class="htc__product__details__tab bg__white pb--120">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <ul class="nav product__deatils__tab mb--60" role="tablist">
+                        <li role="presentation" class="active">
+                            <a class="active" href="#description" role="tab" data-toggle="tab">Mô tả sơ lược về trang sức bạc</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#reviews" role="tab" data-toggle="tab">Cách bảo quản</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product__details__tab__content">
+                        <!-- Start Single Content -->
+                        <div role="tabpanel" id="description" class="product__tab__content active">
+                            <div class="product__description__wrap">
+                                <div class="product__desc">
+                                    <h2 class="title__6">BẠC 925 LÀ GÌ?</h2>
+                                    <p>
+                                        Bạc 925 là một hợp kim chứa 92.5% là bạc nguyên chất và 7.5% còn lại hợp chất tạo độ cứng cáp, giúp chế tạo được những sản phẩm có độ tinh xảo tuyệt đối. 7.5% là công thức tuyệt mật của từng thuơng hiệu, nó sẽ quyết định độ bóng, độ cứng của bạc, giảm lỗ tổ ong (xuất hiện ở bạc nguyên chất). Vì bạc 100% quá mềm để có thể chế tác những sản phẩm bạc tinh xảo, khó gia công và dễ bị biến dạng trong quá trình sử dụng.
+
+                                        Tại Jewelry Shop, để tránh tình trạng tỉ trọng bạc sai lệch, mỗi quy trình luôn được KaT kiểm tra nghiêm ngặt về phần trăm bạc trong thành phẩm. Nên những sản phẩm chế tác bên shop có phần trăm bạc luôn ổn định trong khoảng 92.5% - 95%.
+
+                                        Khách hàng sẽ được Jewelry Shop hỗ trợ kiểm định chất lượng sản phẩm bằng máy đo nếu có nhu cầu (tính phí). Đám bảo chính xác hơn việc kiểm tra thủ công tại các, tiệm vàng nhỏ lẻ.
+
+                                        Đối với 1 số đơn hàng đặt làm riêng (customize) đặc biệt do khách yêu cầu , KaT sẽ làm phần trăm bạc có thể cao hơn từ 95% - 99.9% tùy theo yêu cầu của khách.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Content -->
+                        <!-- End Single Content -->
+                        <!-- Start Single Content -->
+                        <div role="tabpanel" id="reviews" class="product__tab__content">
+                            <div class="review__address__inner">
+                                <!-- Start Single Review -->
+                                <div class="product__desc">
+                                    <h2 class="title__6">BẢO QUẢN</h2>
+                                    <p>
+                                        Bạc bị đen không phải là do chất lượng kém mà nguyên nhân chính là do tuyến mồ hôi và môi trường tiếp xúc trang sức của người đeo.
+
+                                        Bạc bị đen là do phản ứng hoá học tự nhiên khi tiếp xúc với chất lưu huỳnh, tạo thành muối bạc, lưu huỳnh kết tủa đen không tan bám trên bề mặt bạc. Các chất chứa lưu huỳnh có rất nhiều trong tự nhiên như: trong không khí, trong suối nước nóng, sản phẩm hoá chất tẩy rửa, và quan trọng hơn cả là trong tuyến mồ hôi của con người…Ngoài ra Lưu Huỳnh còn có thể truyền từ người này qua người khác trực tiếp hoặc gián tiếp như: cầm tay láy xe máy, tay nắm cửa, cầm chung đồ uống, sử dụng chung khăn lau, bắt tay, nắm tay hoặc sử dụng chung sản phẩm với người có mồ hôi muối.
+
+                                        Vì vậy sản phẩm bạc để lâu ngày không đeo, vẫn có thể bị đen như bình thường nếu bạn để bạc ở nơi có chứa hợp chất của lưu huỳnh dù nhiều hay ít. Với những người tuyến mồ hôi có chứa nhiều lưu huỳnh (thường gọi là mồ hôi muối), bạc sẽ mau bị đen. Có những người tuyến mồ hôi ít hoặc không chứa lưu huỳnh hoặc một số người tuyến mồ hôi có khả năng khử muối bạc-lưu huỳnh (thường goị là mồ hôi dầu) thì đeo bạc lúc nào cũng rất sáng và bóng.
+
+                                        - Sau khi tháo trang sức sau mỗi lần sử dụng, bạn nên vệ sinh sạch sẽ trang sức rồi cất và bảo quản ở nơi khô ráo và kín. Bên shop cũng có bán bộ dung dịch rửa trang sức cho các bạn có nhu cầu cần mua và sử dụng, cách thức sử dụng shop sẽ hướng dẫn trong bài khác .
+
+                                        Khi đeo trang sức các bạn hạn chế tiếp xúc với hóa chất , nếu bạn nào dung nước hoa thì sau khi xịt nước hoa , hoặc bạn nào sử dụng lotion dưỡng da thì đợi tầm 10 – 15p hãy đeo trang sức vào,hạn chế đeo trang sức khi đi làm tóc (uốn ,nhuộm ,tẩy) vì hóa chất đó sẽ làm đen bạc.Sau khi tắm suối nước nóng, có thể thấy bạc bị đen, bởi vì trong nước nóng có hidrosunfua, nhanh chóng tạo thành muối bạc-lưu huỳnh và làm bạc bị đen.
+
+                                        Trong mồ hôi thì ngoài các loại muối, còn có các axit amin mà trong thành phần lại có lưu huỳnh. Dù là bạc gì cũng đều có thể bị đen khi gặp môi trường tạo muối bạc-lưu huỳnh. Bên cạnh đó, tuyến mồ hôi mà cơ thể chúng ta tiết ra cũng phụ thuộc vào chế độ ăn uống, nghỉ ngơi vì vậy mà khi đeo dây chuyền bạc tự nhiên thấy bị xỉn màu bạn cũng đừng lo lắng về chất lượng bạc.
+                                    </p>
+                                    <br />
+                                    <br />
+                                    <h2 class="title__6">Cách làm sáng sản phẩm bạc</h2>
+                                    <p>
+                                        Nếu sản phẩm bạc các bạn đang sử dụng bị đen hoặc xỉn màu, bạn có thể làm sáng bạc trở lại bằng những mẹo nhỏ sau:<br>
+
+                                        1.  Cho vào giấm táo đun sôi nhỏ lửa.<br>
+
+                                        2.  Lấy kem đánh răng dùng bàn chải đánh nhẹ và rửa sạch hoặc bạn có thể dùng dung dịch chanh- muối đun sôi nhẹ, rượu vodka,...<br>
+
+                                        3.  Rửa trong dung dịch xà phòng rửa chén<br>
+
+                                        4.  Ngâm trong bia 5- 10p<br>
+
+                                        5. Sử dụng bộ dung dịch rửa trang sức của Jewelry Shop.<br>
+
+                                        Nếu làm các phương pháp trên nhưng bạc vẫn bị xỉn màu, thì cách giải quyết đối với những trường hợp này là bạn mang sản phẩm ra Jewelry Shop để được bảo hành làm sáng miễn phí trọn đời nhé.
+                                    </p>
+                                </div>
+                                <!-- End Single Review -->
+                            </div>
+                            <!-- End Single Content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- End Product tab -->
+}
+@if (User.IsInRole(JewelryShop.RL.Admin))
+{
+    <section class="htc__product__area ptb--130 bg__white">
+        <header>
+            <section class="htc__product__area ptb--130 bg__white">
+                <div class="container text-center">
+                    <h1 class="text-danger">Giao diện Admin</h1>
+                </div>
+            </section>
+        </header>
+    </section>
+}

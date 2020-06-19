@@ -1,0 +1,155 @@
+﻿@model JewelryListViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Thêm Sản Phẩm";
+}
+
+<section class="htc__product__area ptb--130 bg__white">
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row p-3 border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (Model.Jewelryy.JewelryId != 0)
+                {
+                    //edit
+                    title = "Thêm sản phẩm";
+                    <input type="hidden" asp-for="Jewelryy.JewelryId" />
+                }
+                <div class="col-12 border-bottom">
+                    <h2 class="text-primary">@title</h2>
+                </div>
+                <div class="col-8 pt-4">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label>Tên Trang Sức</label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Jewelryy.Name" class="form-control" />
+                            <span asp-validation-for="Jewelryy.Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label>Mô Tả</label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Jewelryy.Description" class="form-control" />
+                            <span asp-validation-for="Jewelryy.Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label>Giá</label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Jewelryy.Price" class="form-control" />
+                            <span asp-validation-for="Jewelryy.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label>Tình Trạng Hiển Thị</label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="Jewelryy.Status" class="form-control" readonly/ >
+                            <span asp-validation-for="Jewelryy.Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            Loại Trang Sức
+                        </div>
+                        <div class="col-8">
+                            <select asp-for="@Model.Jewelryy.CategoryId" id="CategoryId" asp-items="Model.CategoryList" class="form-control"></select>
+                            <span asp-validation-for="Jewelryy.CategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            Hình Ảnh
+                        </div>
+                        <div class="col-8">
+                            <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8 offset-4">
+                            @*@if (Model.Product.ProductId != 0)
+                {
+                    <partial name="_EditAndBackToListButton" model="Model.Product.ProductId" />
+                }
+                else
+                {*@
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" onclick="return validateInput()" class="btn btn-outline-dark form-control">Thêm Sản Phẩm</button>
+                                </div>
+                                <div class="col">
+                                    <a asp-action="Index" class="btn btn-dark form-control">Quay Lại</a>
+                                </div>
+                            </div>
+                            @*}*@
+                        </div>
+                    </div>
+                </div>
+                @*@if (Model.Product.ProductId != 0)
+                {
+                    <div class="col-3 offset-1 pt-4">
+                        <img src="@Model.Product.ImageUrl" style="border-radius:5px; border:1px solid #bbb9b9" />
+                    </div>
+                }*@
+            </div>
+        </form>
+
+        @section Scripts{
+            <partial name="_ValidationScriptsPartial" />
+            
+
+            <script>
+
+                    function validateInput() {
+                        var array = ['jpg', 'png', 'gif','jpeg'];
+                        var xyz = document.getElementById("uploadBox");
+                        var Extension = xyz.value.substring(xyz.value.lastIndexOf('.') + 1).toLowerCase();
+                        if (document.getElementById("uploadBox").value == "") {
+                            alert("Please select an image");
+                            return false;
+                        }
+                        if (array.indexOf(Extension) <= -1) {
+                            alert("Please Upload only jpeg,png,gif extension file");
+                            return false;
+                        }
+                        var oFile = document.getElementById("uploadBox").files[0]; // <input type="file" id="fileUpload" accept=".jpg,.png,.gif,.jpeg"/>
+
+                        if (oFile.size > 2097152) // 2 mb for bytes.
+                        {
+                            alert("File size must under 2MB!");
+                            return false;
+                        }
+                        return true;
+                    };
+                    //function validateInput1() {
+                    //    var array = ['jpg', 'png', 'gif', 'jpeg',''];
+                    //    var xyz = document.getElementById("uploadBox");
+                    //    var Extension = xyz.value.substring(xyz.value.lastIndexOf('.') + 1).toLowerCase();
+
+                    //    if (array.indexOf(Extension) <= -1) {
+                    //        alert("Error", "Please Upload only jpeg,png,gif extension file", "error");
+                    //        return false;
+                    //    }
+                    //    var oFile = document.getElementById("uploadBox").files[0]; // <input type="file" id="fileUpload" accept=".jpg,.png,.gif,.jpeg"/>
+
+                    //    if (oFile.size > 2097152) // 2 mb for bytes.
+                    //    {
+                    //        alert("Error", "File size must under 2MB!", "error");
+                    //        return false;
+                    //    }
+                    //    return true;
+                    //};
+
+            </script>
+
+        }
+    </div>
+</section>

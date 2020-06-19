@@ -1,0 +1,127 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+@if (!User.IsInRole("Admin"))
+{
+    <!-- Start Slider Area -->
+    <div class="slider__container slider--one">
+        <div class="slider__activation__wrap owl-carousel owl-theme">
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                                <div class="slider__btn">
+                                    <a class="htc__btn" asp-controller="Home" asp-action="Index">Mua hàng ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                                <div class="slider__btn">
+                                    <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+        </div>
+    </div>
+    <!-- End Slider Area -->
+}
+    <section class="htc__product__area ptb--130 bg__white">
+
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                @if (User.IsInRole("Admin"))
+                {
+                    <h1>Tạo tài khoản Admin</h1>
+                }
+                @if (!User.IsInRole("Admin"))
+                {
+                    <h1>Đăng Ký</h1>
+                }
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label>Họ và Tên</label>
+                        <input asp-for="Input.FullName" class="form-control" />
+                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input asp-for="Input.PhoneNumber" class="form-control" />
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input asp-for="Input.Adress" class="form-control" />
+                        <span asp-validation-for="Input.Adress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu</label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Nhập lại mật khẩu</label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="form-group">
+                            <label asp-for="Input.Role"></label>
+                            @*<input asp-for="Input.Role" value="@Model.Input.Role" class="form-control" />*@
+                            @*Khúc này mốt kiếm cách sửa lại là 1 cái textField disable mặc định là Admin luôn cho nó hợp lý*@
+                            @*@Html.DropDownListFor(m => m.Input.Role, Model.Input.RoleList
+                                , new { @class = "form-control" })*@
+                            @*<input asp-for="Input.Role" value="@Html.DisplayNameFor(m => m.Input.Role
+                                )" class="form-control" />*@
+                            <input asp-for="Input.Role" value="@Model.Input.Role" class="form-control" readonly />
+
+
+                        </div>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button type="submit" class="btn btn-dark">Tạo người dùng</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-dark">Đăng ký</button>
+                    }
+                </form>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+        </div>
+    </section>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }

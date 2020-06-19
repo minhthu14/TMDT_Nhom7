@@ -1,0 +1,147 @@
+﻿
+@model JewelryShop.ViewModels.OrderDetailsListVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.Extensions.Options
+
+<section class="htc__product__area ptb--130 bg__white">
+    <form method="post" asp-controller="Order" asp-action="OrderHistoryDetail" asp-route-id="@Model.Order.OrderId">
+        <input hidden asp-for="Order.OrderId" />
+        <br />
+        <div class="backgroundWhite container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 row container">
+                    <div class="col-12 d-none d-md-block col-md-6 pb-1" style="font-size: 26px">Chi Tiết Đơn Hàng</div>
+                    @if (User.IsInRole(JewelryShop.RL.Admin))
+                    {
+                        <div class="col-12 col-md-4 offset-md-2 text-right text-dark">
+                            <a asp-controller="Order" asp-action="ManageOrder" class="btn btn-light form-control btn-sm">Quay lại</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-12 col-md-4 offset-md-2 text-right text-dark">
+                            <a asp-controller="Order" asp-action="OrderHistory" class="btn btn-light form-control btn-sm">Quay lại</a>
+                        </div>
+                    }
+                </div>
+
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h5 class="section-title-3">Thông Tin Khách Hàng</h5>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-4">Họ tên</div>
+                                    <div class="col-8">
+                                        <input asp-for="Order.Name" type="text" class="form-control" readonly />                               
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-4">Số điện thoại</div>
+                                    <div class="col-8">
+                                        <input asp-for="Order.PhoneNumber" type="text" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-4">Địa chỉ</div>
+                                    <div class="col-8">                                      
+                                        <input asp-for="Order.Address" type="text" class="form-control" readonly />                                       
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-4">Email</div>
+                                    <div class="col-8">                                       
+                                        <input asp-for="Order.ApplicationUser.Email" type="text" class="form-control" readonly />                                     
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-4">Ngày đặt hàng</div>
+                                    <div class="col-8">
+                                        <input value="@Model.Order.OrderDate.ToShortDateString()" type="text" class="form-control" readonly />
+                                    </div>
+                                </div>
+
+                                @if (User.IsInRole(JewelryShop.RL.Admin))
+                                {
+                                    
+                                    <div class="row my-1">
+                                        <div class="col-4">Hình thức thanh toán</div>
+                                        <div class="col-8">
+                                            <input asp-for="Order.PaymentType" type="text" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-4">Tình trạng đơn hàng</div>
+                                        <div class="col-8">
+                                            <input asp-for="Order.OrderStatus" type="text" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h5 class="section-title-3">Chi Tiết Sản Phẩm</h5>
+                                <ul class="list-group mb-3">
+                                    @foreach (var details in Model.OrderDetails)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between p-2">
+                                            <div class="row container">
+                                                <div class="col-8">
+                                                    <input type="hidden" asp-for="@details.OrderDetailId" />
+                                                    <small>Mã sản phẩm: @details.JewelryIdF</small>
+                                                    <h5>@details.Jewelry.Name</h5>
+                                                    <small>Giá: @details.Price VND</small><br />
+                                                    <small>Số lượng: @details.Amount</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <p>@(details.Amount * details.Price) VND</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                    <li class="list-group-item bg-dark">
+                                        <div class="row container">
+                                            <div class="col-6">
+                                                <h5 class="text-white">TỔNG CỘNG</h5>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <h5 class="text-white">@Model.Order.OrderTotal VND</h5>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                @if (User.IsInRole(JewelryShop.RL.Admin))
+                                {                                   
+                                    <br />
+                                    @if (Model.Order.OrderStatus == JewelryShop.RL.StatusNot)
+                                    {
+                                        <a asp-action="StartHandling" asp-route-id="@Model.Order.OrderId"
+                                           class="btn btn-danger form-control">Xử lý đơn hàng</a>
+                                    }
+                                    @if (Model.Order.OrderStatus == JewelryShop.RL.StatusYet)
+                                    {
+                                        <input type="text" readonly class="text-white bg-dark form-control" value="Đơn hàng này đã được xử lý."/>
+                                    }
+
+                                }
+                                else
+                                {
+                                    @*<button class="btn btn-dark form-control" disabled>@Model.Order.OrderStatus</button>*@
+                                    <span></span>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</section>

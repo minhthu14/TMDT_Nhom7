@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/css/plugins.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/css/shortcode/shortcodes.css" rel="stylesheet" />
+    <link href="~/content/style.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/css/responsive.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/css/custom.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @using Microsoft.AspNetCore.Identity
+    @inject SignInManager<IdentityUser> SignInManager
+    @inject UserManager<IdentityUser> UserManager
+
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div id="hellouser"><a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Xin chào @UserManager.GetUserName(User)!</a></div>
+    }
+<div class="wrapper fixed__footer">
+    <!--DIV TỔNG-->
+    <header id="header" class="htc-header">
+        <!-- Start Mainmenu Area -->
+        <div id="sticky-header-with-topbar" class="mainmenu__area sticky__header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2 col-lg-2 col-6">
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <img src="~/Images/JEW.png" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Start MAinmenu Ares -->
+                    <div class="col-md-8 col-lg-8 d-none d-md-block">
+                        @if (User.IsInRole(JewelryShop.RL.Customer) || !SignInManager.IsSignedIn(User))
+                        {
+                            <nav class="mainmenu__nav  d-none d-lg-block">
+                                <ul class="main__menu">
+                                    <li class="drop">
+                                        <a asp-controller="Home" asp-action="Index">TRANG CHỦ</a>
+                                    </li>
+                                    <li class="drop">
+                                        <a>SẢN PHẨM</a>
+                                        <ul class="dropdown">
+                                            @await Component.InvokeAsync("CategoryMenu")
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">GIỚI THIỆU</a></li>
+                                    <li><a href="#">lIÊN HỆ</a></li>
+                                </ul>
+                            </nav>
+                        }
+                        @if (User.IsInRole(JewelryShop.RL.Admin))
+                        { 
+                            <nav class="mainmenu__nav  d-none d-lg-block">
+                                <ul class="main__menu">
+                                    <li class="drop">
+                                        <a asp-controller="User" asp-action="Index">QUẢN LÝ TÀI KHOẢN</a>
+                                    </li>
+                                    <li class="drop">
+                                        <a asp-controller="Product" asp-action="Index">QUẢN LÝ SẢN PHẨM</a>
+                                    </li>
+                                    <li class="drop">
+                                        <a asp-controller="Categories" asp-action="Index">QUẢN LÝ LOẠI SẢN PHẨM</a>
+                                    </li>
+                                    <li class="drop">
+                                        <a asp-controller="Order" asp-action="ManageOrder">QUẢN LÝ ĐƠN HÀNG</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
+                            <div class="mobile-menu clearfix d-block d-lg-none">
+                                <nav id="mobile_dropdown">
+                                    <ul>
+                                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                        <li><a href="#">About</a></li>
+                                        <li>
+                                            <a href="#">blog</a>
+                                            <ul>
+                                                <li><a href="#">blog</a></li>
+                                                <li><a href="#">blog details</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">pages</a></li>
+                                        <li><a href="#">contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    <!-- End MAinmenu Ares -->
+                    <div class="col-md-2 col-lg-2 col-6">
+                        <ul class="main__menu">
+                            @if (User.IsInRole(JewelryShop.RL.Customer) || !SignInManager.IsSignedIn(User))
+                            {
+                                <li class="search search__open d-none d-sm-block">
+                                    <a href="#">
+                                        <span class="ti-search"></span>
+                                    </a>
+
+                                </li>
+                            }
+                                <li class="drop">
+                                    <a href="#"><span class="ti-user"></span></a>
+                                    <ul class="dropdown">
+                                        <partial name="_LoginPartial" />
+                                        @if (User.IsInRole(JewelryShop.RL.Customer))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Đổi mật khẩu</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" id="register" asp-controller="Order" asp-action="OrderHistory">Đơn hàng</a>
+                                            </li>
+                                        }@if (User.IsInRole(JewelryShop.RL.Admin))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Đổi mật khẩu</a>
+                                            </li>
+
+                                        }
+                                    </ul>
+                                </li>
+                                @if (User.IsInRole(JewelryShop.RL.Customer) || !SignInManager.IsSignedIn(User))
+                                {
+                                    <li class="cart__menu">
+                                        @await Component.InvokeAsync("ShoppingCartSummary")
+                                    </li>
+                                }
+                            </ul>
+                    </div>
+                </div>
+                <div class="mobile-menu-area"></div>
+            </div>
+        </div>
+        <!-- End Mainmenu Area -->
+    </header>
+    <!-- End Header Style -->
+
+
+
+    
+    <!-- Start Offset Wrapper -->
+    <div class="offset__wrapper">
+        <!-- Start Search Popap -->
+        @if (User.IsInRole(JewelryShop.RL.Customer) || !SignInManager.IsSignedIn(User))
+        {
+            <div class="search__area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="search__inner">
+                                <form asp-controller="Jewelry" asp-action="Search" method="get">
+                                    <input placeholder="Tìm kiếm..." type="text" name="searchString" value="@ViewData["searchString"]">
+                                    <button type="submit"></button>
+                                </form>
+                                <div class="search__close__btn">
+                                    <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- End Search Popap -->
+
+
+    </div>
+    <!-- End Offset Wrapper -->
+   
+
+
+    @RenderBody()
+
+    <!-- Start Footer Area -->
+    <hr />
+    <footer class="htc__foooter__area">
+        <div class="container">
+            <div class="row footer__container clearfix">
+                <!-- Start Single Footer Widget -->
+                <div class="col-md-4">
+                    <div class="ft__widget">
+                        <div class="ft__logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <img src="~/Images/logo.png" alt="footer logo">
+                            </a>
+                        </div>
+                        <div class="footer__details">
+                            <p>Yên tâm tuyệt đối về chất lượng sản phẩm khi mua hàng tại Jewelry Shop.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Single Footer Widget -->
+                <!-- Start Single Footer Widget -->
+                <div class="col-md-4 smt-30 xmt-30">
+                    <div class="ft__widget contact__us">
+                        <h2 class="ft__title" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">GIỚI THIỆU</h2>
+                        <div class="footer__inner">
+                            <p>
+                                555 An Dương Vương,Quận 5 HCM
+                                <br> SĐT:(028) 993 0674
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Single Footer Widget -->
+                <!-- Start Single Footer Widget -->
+                <div class="col-md-4 smt-30 xmt-30">
+                    <div class="ft__widget">
+                        <h2 class="ft__title" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">LIÊN HỆ</h2>
+                        <ul class="social__icon">
+                            <li><a href="https://twitter.com" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com" target="_blank"><i class="zmdi zmdi-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com" target="_blank"><i class="zmdi zmdi-facebook"></i></a></li>
+                            <li><a href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End Single Footer Widget -->
+            </div>
+            <!-- Start Copyright Area -->
+            <div class="htc__copyright__area">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="copyright__inner">
+                            <div class="copyright">
+                                <p>
+                                    © 2020 <a href="" target="_blank">JewelryShop</a>
+                                    
+                                </p>
+                            </div>
+                            <ul class="footer__menu">
+                                <li><a asp-controller="Home" asp-action="Index">TRANG CHỦ</a></li>
+                                <li><a href="#">GIỚI THIỆU</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Copyright Area -->
+            @RenderSection("Scripts", required: false)
+        </div>
+    </footer>
+    <!-- End Footer Area -->
+</div>
+    <!--END DIV TỔNG BÊN HEADER-->
+    <script src="~/lib/bootstrap/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/lib/bootstrap/js/popper.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/js/plugins.js"></script>
+    <script src="~/lib/bootstrap/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<JewelryShop.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <section class="htc__product__area ptb--130 bg__white">
+        <div class="backgroundWhite container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 row container">
+                    <div class="col-12 d-none d-md-block col-md-9 pb-1">
+                        <h2 class="text-light">Danh sách loại sản phẩm</h2>
+                    </div>
+                    <div class="col-12 d-md-block col-md-3 pb-1" style="padding-left:70px">
+                        <button class="btn btn-primary my-2 my-sm-0" ><a asp-action="Create" style="color:white;">Thêm loại sản phẩm</a></button>
+                        @*<a asp-action="Create" class="btn btn-outline-secondary form-control btn-sm">Thêm sản phẩm</a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            @*<p>
+            <a asp-action="Create" class="btn btn-outline-secondary">Thêm Loại Trang Sức</a>
+        </p>*@
+            <div class="backgroundWhite">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr class="p-3 mb-2 bg-secondary text-white">
+                            <th>Tên Loại Trang Sức</th>
+                            <th style="width: 150px;text-align:center">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CategoryName)
+                                </td>
+                                <td style="width: 150px;text-align:center">
+                                    <a class="btn btn-primary text-white" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</a>
+                                    @*<a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.CategoryId">Chi Tiết</a>*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
+</section>

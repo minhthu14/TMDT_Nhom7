@@ -1,0 +1,25 @@
+﻿@model Jewelry
+
+<div class="col-md-3 single__pro col-lg-3 col-md-4 cat--1 col-sm-12">
+    <div class="product foo">
+        <div class="product__inner">
+            <div class="pro__thumb">
+                <a href="#">
+                    <img src="@Model.ImageUrl" />
+                </a>
+            </div>
+            <div class="product__hover__info">
+                <ul class="product__action">
+                    <li><a title="Add To Cart" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-jewelryId="@Model.JewelryId"><span class="ti-shopping-cart"></span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="product__details">
+            <h2><a asp-controller="Jewelry" asp-action="Details" asp-route-id="@Model.JewelryId">@Model.Name</a></h2>
+            <ul class="product__price">
+                <li class="new__price">Giá: @Model.Price VND</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Single Product -->

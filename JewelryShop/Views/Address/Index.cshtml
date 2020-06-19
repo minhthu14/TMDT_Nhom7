@@ -1,0 +1,70 @@
+﻿@*@page*@
+@model ApplicationUser
+<!-- Start Slider Area -->
+@if (!User.IsInRole("Admin"))
+{
+    <div class="slider__container slider--one">
+        <div class="slider__activation__wrap owl-carousel owl-theme">
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                                <div class="slider__btn">
+                                    <a class="htc__btn" asp-controller="Home" asp-action="Index">Mua hàng ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+            <!-- Start Single Slide -->
+            <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                            <div class="slider__inner">
+                                <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                                <div class="slider__btn">
+                                    <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Slide -->
+        </div>
+    </div>
+    <!-- End Slider Area -->
+}
+    <section class="htc__product__area ptb--130 bg__white">
+
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h1>Sửa địa chỉ</h1><br />
+                <form id="profile-form" method="post" asp-action="EditAddress">
+                    <div class="form-group">
+                        <label asp-for="@Model.Adress">Địa chỉ cũ</label>
+                        <input asp-for="@Model.Adress" class="form-control" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ mới</label>
+                        <input class="form-control" id="address" name="address" />
+                    </div>
+                    <button id="update-profile-button" asp-action="EditAddress" class="btn btn-dark">Lưu</button>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </section>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+
+    }

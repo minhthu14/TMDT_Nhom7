@@ -1,0 +1,113 @@
+﻿@model JewelryShop.ViewModels.OrderListVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Start Slider Area -->
+<div class="slider__container slider--one">
+    <div class="slider__activation__wrap owl-carousel owl-theme">
+        <!-- Start Single Slide -->
+        <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                        <div class="slider__inner">
+                            <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                            <div class="slider__btn">
+                                <a class="htc__btn" asp-controller="Home" asp-action="Index">Mua hàng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Slide -->
+        <!-- Start Single Slide -->
+        <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                        <div class="slider__inner">
+                            <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                            <div class="slider__btn">
+                                <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Slide -->
+    </div>
+</div>
+<!-- End Slider Area -->
+<section class="htc__product__area ptb--130 bg__white">
+    <div class="backgroundWhite container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0 row container">
+                <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                    <h2 class="text-light">Danh sách đơn hàng đã mua</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="backgroundWhite">
+            @if (Model.Orders.Count() > 0)
+            {
+                <table class="table table-striped table-bordered table-hover">
+                    <tr class="p-3 mb-2 bg-secondary text-white">
+                        <th>Mã Order</th>
+                        <th>Họ Tên</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Tổng tiền</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Tình trạng đơn hàng</th>
+                        <th>Chi tiết đơn hàng</th>
+                    </tr>
+                    @foreach (var item in Model.Orders)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.OrderId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.OrderTotal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.OrderDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Order.OrderStatus)
+                            </td>
+                            <td>
+                                <a class="btn btn-dark text-white" asp-action="OrderHistoryDetail" asp-route-id="@item.Order.OrderId">Chi Tiết Đơn Hàng</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <br />
+            }
+            else
+            {
+                <table class="table table-striped table-bordered table-hover">
+                        <tr>
+                            <td colspan="8" style="text-align:center">Bạn chưa mua hàng</td>
+                        </tr>
+                    </table>
+            }
+        </div>
+    </div>
+
+</section>

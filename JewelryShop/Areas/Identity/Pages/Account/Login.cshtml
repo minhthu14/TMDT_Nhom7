@@ -1,0 +1,85 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<!-- Start Slider Area -->
+<div class="slider__container slider--one">
+    <div class="slider__activation__wrap owl-carousel owl-theme">
+        <!-- Start Single Slide -->
+        <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(5, 0, 0, 0) url(\\Images\\11.jpg) no-repeat scroll center center/ cover ;">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
+                        <div class="slider__inner">
+                            <h1>Chào Mừng Bạn Đến Với<span class="text--theme">Jewelry Shop</span></h1>
+                            <div class="slider__btn">
+                                <a class="htc__btn" href="cart.html">Mua hàng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Slide -->
+        <!-- Start Single Slide -->
+        <div class="slide slider__full--screen" style="margin-top:130px;height:500px;background: rgba(67, 0, 0, 0) url(\\Images\\12.jpg) no-repeat scroll center center / cover ;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                        <div class="slider__inner">
+                            <!----<h1>Chào Mừng Bạn Đến<span class="text--theme">Jewelry Shop</span></h1>-->
+                            <div class="slider__btn">
+                                <!----<a class="htc__btn" href="cart.html">Mua hàng ngay</a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Slide -->
+    </div>
+</div>
+<!-- End Slider Area -->
+<section class="htc__product__area ptb--130 bg__white">
+    
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6"><h1>Đăng Nhập</h1>
+            <section>
+                <form id="account" method="post">
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu</label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-dark">Đăng Nhập</button>
+                    </div>
+                    <div class="form-group">
+                        
+                        <p>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Đăng ký tài khoản mới!</a>
+                        </p>
+                        
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div class="col-md-3">
+            
+        </div>
+    </div>
+</section>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
